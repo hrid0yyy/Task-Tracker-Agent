@@ -1,3 +1,6 @@
 pymongo
 dotenv
 
+langchain 
+langgraph 
+langchain_google_genai
