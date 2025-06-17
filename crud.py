@@ -26,6 +26,17 @@ def find_document(db_name: str, collection_name: str, query: dict):
     collection = get_collection(db_name, collection_name)
     return collection.find(query)
 
+def find_all_documents(db_name: str, collection_name: str):
+    """
+    Finds all documents in the specified MongoDB collection.
+    
+    :param db_name: Name of the database
+    :param collection_name: Name of the collection
+    :return: Cursor to the documents found
+    """
+    collection = get_collection(db_name, collection_name)
+    return collection.find({})
+
 def update_document(db_name: str, collection_name: str, query: dict, update: dict):
     """
     Updates a document in the specified MongoDB collection based on the query.
