@@ -4,3 +4,7 @@ dotenv
 langchain 
 langgraph 
 langchain_google_genai
+
+# Builtin tools
+langchain_community
+duckduckgo-search

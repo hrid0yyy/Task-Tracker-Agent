@@ -3,13 +3,17 @@ from Task import TaskClass
 from datetime import datetime
 from langchain_core.tools import tool
 from Database import add_to_task, get_all_tasks, get_task_by_id, delete_all_tasks, update_task
+from langchain_community.tools import DuckDuckGoSearchRun
 
+ddg = DuckDuckGoSearchRun()
 
 @tool
 def add_task(description: str, deadline: str = None) -> str:
     """
     Adds a new task to the database with the given description and optional deadline.
-    
+    Create a description from the user input.
+    If user provides no deadline, it will be set to None.
+
     Args:
         description (str): The description of the task.
         deadline (str, optional): The deadline for the task in ISO format. Defaults to None.
@@ -17,14 +21,8 @@ def add_task(description: str, deadline: str = None) -> str:
     Returns:
         str: Confirmation message with task ID and description.
     """
-    if not description:
-        return "Description cannot be empty."
-    
-    try:
-        deadline_dt = datetime.fromisoformat(deadline) if deadline else None
-    except ValueError:
-        return "Invalid deadline format. Use ISO format (YYYY-MM-DDTHH:MM:SS)."
-    
+    deadline_dt = datetime.fromisoformat(deadline) if deadline else None
+   
     task = TaskClass(
         _id=str(uuid.uuid4()),
         description=description,
