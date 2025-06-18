@@ -1,4 +1,4 @@
-from Tools import add_task, get_tasks, ddg
+from Tools import add_task, get_tasks, ddg, get_time
 from langchain_google_genai import ChatGoogleGenerativeAI
 from Database import delete_all_tasks
 from typing import Annotated, Sequence, TypedDict
@@ -16,7 +16,7 @@ class AgentState(TypedDict):
     messages: Annotated[Sequence[BaseMessage], add_messages]
 
 
-tools = [add_task, get_tasks, delete_all_tasks, ddg]
+tools = [add_task, get_tasks, delete_all_tasks, ddg, get_time]
 model = ChatGoogleGenerativeAI(model="gemini-2.0-flash").bind_tools(tools)
 
 def model_call(state:AgentState) -> AgentState:

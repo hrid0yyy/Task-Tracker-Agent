@@ -90,4 +90,18 @@ def update_task_by_id(task_id: str, description: str = None, deadline: str
         task.update_completion_status(completion_status)
     
     return update_task(task_id, task)
-    
+
+@tool    
+def get_time() -> str:
+    """
+    Returns the current time in ISO format and the day of the week.
+    This function can be used to get the current time for task creation or updates.
+    Calculate Tomorrow, yesterday, in 'n' days, etc., using this function.
+    Also calculate the day of the week.
+
+    Returns:
+        str: A string containing the current time in ISO format and the day of the week.
+    """
+    current_time = datetime.now()
+    day_of_week = current_time.strftime("%A")  # %A gives the full weekday name (e.g., Monday)
+    return f"Current time: {current_time.isoformat()}, Day: {day_of_week}"
