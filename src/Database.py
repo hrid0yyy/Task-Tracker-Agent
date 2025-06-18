@@ -4,6 +4,7 @@ import os
 from Task import TaskClass
 import uuid
 from typing import Union
+from datetime import datetime
 
 
 load_dotenv()  
@@ -23,7 +24,10 @@ def get_all_tasks():
     """
     Retrieves all tasks from the MongoDB database.
     """
-    tasks = list(tasks_collection.find())
+    # take all that tasks that are in future and not completed
+    # and sort them by deadline
+    tasks = tasks_collection.find({ "$and" : [ { "deadline" : { "$gt": datetime.now() } }, { "completed" : False } ] }).sort("deadline", 1)
+
     if not tasks:
         return "No tasks found."
     response = ""

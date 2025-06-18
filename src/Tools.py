@@ -44,7 +44,7 @@ def get_tasks() -> list:
     return get_all_tasks()
 
 @tool
-def get_task_by_id(task_id: str) -> str:
+def task_by_id(task_id: str) -> str:
     """
     Retrieves a task by its ID from the database.
     

@@ -1,4 +1,4 @@
-from Tools import add_task, get_tasks, ddg, get_time
+from Tools import add_task, get_tasks, ddg, get_time, update_task_by_id, task_by_id
 from langchain_google_genai import ChatGoogleGenerativeAI
 from Database import delete_all_tasks
 from typing import Annotated, Sequence, TypedDict
@@ -6,17 +6,18 @@ from langchain_core.messages import BaseMessage, SystemMessage
 from langgraph.graph.message import add_messages
 from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
-
+from langgraph.checkpoint.memory import MemorySaver
 
 from dotenv import load_dotenv
 load_dotenv()  
+
 
 
 class AgentState(TypedDict):
     messages: Annotated[Sequence[BaseMessage], add_messages]
 
 
-tools = [add_task, get_tasks, delete_all_tasks, ddg, get_time]
+tools = [add_task, get_tasks, delete_all_tasks, ddg, get_time,update_task_by_id, task_by_id]
 model = ChatGoogleGenerativeAI(model="gemini-2.0-flash").bind_tools(tools)
 
 def model_call(state:AgentState) -> AgentState:
@@ -54,4 +55,5 @@ graph.add_conditional_edges(
 
 graph.add_edge("tools", "our_agent")
 
-app = graph.compile()
+memory = MemorySaver()
+app = graph.compile(checkpointer=memory)
